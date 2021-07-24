@@ -25,7 +25,6 @@
 
 import os
 import sys
-# import pathlib
 import requests
 import random
 import shutil
@@ -36,15 +35,13 @@ import volapi
 from volapi import Room
 from volapi import file
 
-# useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
-
 ###############
 # Scrape Vola #
 ###############
 
-def scrape_vola(room_id):
+def scrape_vola(args):
     user_id = volapi.utils.random_id(randint(4, 9))
-    with volapi.Room(room_id, user_id) as vroom:
+    with volapi.Room(args.room_id, user_id) as vroom:
         vroom.listen(once=True)
         for f in vroom.files:
             print("Getting..." + f.url)
@@ -59,15 +56,13 @@ def scrape_vola(room_id):
 ##############
 # Run Scrape #
 ##############
-#  def main(args = sys.argv[0]):
 def main(**kwargs):
     ap = argparse.ArgumentParser(
         description='Scrape files from a volafile room',
         epilog='Your files will be downloaded in your CWD')
     ap.add_argument('room_id', metavar='Room_ID', help='Room to be scraped')    
     args = ap.parse_args()
-    room_id = args.room_id
-    scrape_vola(room_id)
+    scrape_vola(args)
 
 if __name__ == '__main__':
     main()
